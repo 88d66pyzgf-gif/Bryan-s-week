@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Elite Legacy">
+    <meta name="theme-color" content="#000000">
+    <link rel="manifest" href="data:application/json,{%22name%22:%22Elite%20Legacy%22,%22short_name%22:%22Elite%20Legacy%22,%22start_url%22:%22/%22,%22display%22:%22standalone%22,%22background_color%22:%22%23000000%22,%22theme_color%22:%22%23000000%22,%22icons%22:[{%22src%22:%22data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%20192%20192%27%3E%3Crect%20fill=%27%230A84FF%27%20width=%27192%27%20height=%27192%27/%3E%3Ctext%20x=%2796%27%20y=%27120%27%20font-size=%27100%27%20fill=%27white%27%20text-anchor=%27middle%27%20dominant-baseline=%27middle%27%3E%E2%9C%93%3C/text%3E%3C/svg%3E%22,%22sizes%22:%22192x192%22,%22type%22:%22image/svg+xml%22}]}">
     <title>Elite Legacy Definitive</title>
     <style>
         :root {
@@ -349,6 +353,31 @@
                     Notification.requestPermission();
                 }
                 
+                // Register service worker for PWA
+                if('serviceWorker' in navigator) {
+                    navigator.serviceWorker.register('data:application/javascript,' + encodeURIComponent(`
+                        self.addEventListener('install', (e) => {
+                            self.skipWaiting();
+                        });
+                        
+                        self.addEventListener('activate', (e) => {
+                            e.waitUntil(clients.claim());
+                        });
+                        
+                        self.addEventListener('message', (e) => {
+                            if(e.data.type === 'PRAYER_NOTIFICATION') {
+                                self.registration.showNotification('🕌 Prayer Time', {
+                                    body: e.data.message,
+                                    icon: 'data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20192%20192%22%3E%3Crect%20fill=%22%230A84FF%22%20width=%22192%22%20height=%22192%22/%3E%3Ctext%20x=%2296%22%20y=%22120%22%20font-size=%22100%22%20fill=%22white%22%20text-anchor=%22middle%22%3E%E2%9C%93%3C/text%3E%3C/svg%3E',
+                                    badge: '🕌',
+                                    tag: 'prayer-notification',
+                                    requireInteraction: true
+                                });
+                            }
+                        });
+                    `)).catch(err => console.log('SW registration failed:', err));
+                }
+                
                 // Check for prayer times every minute
                 setInterval(() => this.checkPrayerTime(), 60000);
                 this.checkPrayerTime(); // Check immediately
@@ -369,12 +398,26 @@
                 };
                 
                 Object.entries(prayerTimes).forEach(([prayerName, time]) => {
-                    if(hour === time.h && minute === time.m && typeof Notification !== 'undefined') {
-                        new Notification('🕌 Prayer Time', {
-                            body: `It's time for ${prayerName} prayer`,
-                            icon: '🕌'
-                        });
+                    if(hour === time.h && minute === time.m) {
                         this.playNotificationSound();
+                        
+                        // Try to show notification
+                        if(typeof Notification !== 'undefined' && Notification.permission === 'granted') {
+                            new Notification('🕌 Prayer Time', {
+                                body: `It's time for ${prayerName} prayer`,
+                                icon: 'data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20192%20192%22%3E%3Crect%20fill=%22%230A84FF%22%20width=%22192%22%20height=%22192%22/%3E%3Ctext%20x=%2296%22%20y=%22120%22%20font-size=%22100%22%20fill=%22white%22%20text-anchor=%22middle%22%3E%E2%9C%93%3C/text%3E%3C/svg%3E',
+                                badge: '🕌',
+                                requireInteraction: true
+                            });
+                        }
+                        
+                        // Also try service worker if available
+                        if('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+                            navigator.serviceWorker.controller.postMessage({
+                                type: 'PRAYER_NOTIFICATION',
+                                message: `It's time for ${prayerName} prayer`
+                            });
+                        }
                     }
                 });
             },
