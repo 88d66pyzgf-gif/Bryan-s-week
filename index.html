@@ -643,7 +643,7 @@
                 `).join('');
                 
                 body.innerHTML += `<div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #333;">
-                    <button class="btn btn-s" style="width: 100%; color: var(--danger); margin-top: 10px;" onclick="if(confirm('Clear ALL data and restart? This cannot be undone.')) { app.db = {}; app.save(); location.reload(); }">🗑️ Clear All Data & Restart</button>
+                    <button class="btn btn-s" style="width: 100%; color: var(--danger); margin-top: 10px; font-weight: 700;" onclick="app.clearAllData()">🗑️ Clear All Data & Restart</button>
                 </div>`;
                 
                 this.toggleModal('historyModal');
@@ -656,13 +656,24 @@
                 alert(`📅 ${date}\n✓ Score: ${entry.score}%\n\n📋 Tasks (${completedTasks.length}):\n${completedTasks.join('\n') || 'None'}\n\n🎯 Habits (${completedHabits.length}):\n${completedHabits.join('\n') || 'None'}\n\n📝 Journal:\n${entry.journal || '(Empty)'}`);
             },
 
+            clearAllData() {
+                if(confirm('Clear ALL data and restart? This cannot be undone.')) {
+                    this.db = {};
+                    this.save();
+                    this.toggleModal('historyModal');
+                    this.idx = 0;
+                    this.riceMode = false;
+                    this.isPaused = false;
+                    this.pausedTime = 30;
+                    this.render();
+                }
+            },
+
             deleteDay(date) { 
                 if(confirm(`Delete entire archive for ${date}? This cannot be undone.`)) { 
                     delete this.db[date]; 
                     this.save();
-                    setTimeout(() => {
-                        this.showHistory();
-                    }, 100);
+                    this.showHistory();
                 } 
             },
 
