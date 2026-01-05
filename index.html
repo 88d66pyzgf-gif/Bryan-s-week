@@ -46,40 +46,29 @@
         .history-item { background: var(--card); border-radius: 20px; padding: 20px; margin-bottom: 15px; border: 1px solid #333; }
         .check-pill { 
             display: flex; align-items: center; gap: 15px; 
-            background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.08)); 
-            padding: 18px 20px; border-radius: 18px; margin-bottom: 10px; 
-            cursor: pointer; transition: all 0.3s cubic-bezier(0.2, 1, 0.2, 1);
-            border: 1.5px solid rgba(255,255,255,0.05);
+            background: rgba(255,255,255,0.04); 
+            padding: 16px 18px; border-radius: 16px; margin-bottom: 12px; 
+            cursor: pointer; transition: all 0.25s ease;
+            border: 1px solid rgba(255,255,255,0.08);
             user-select: none;
         }
-        .check-pill:hover { 
-            background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.12));
-            border-color: rgba(255,255,255,0.1);
-            transform: translateX(4px);
-        }
+        .check-pill:active { transform: scale(0.98); }
         .check-pill.active { 
-            border: 1.5px solid var(--success); 
-            background: linear-gradient(135deg, rgba(50, 215, 75, 0.15), rgba(50, 215, 75, 0.08));
-            box-shadow: 0 0 20px rgba(50, 215, 75, 0.2);
-        }
-        .check-pill.active:hover {
-            transform: translateX(4px) scale(1.02);
+            background: rgba(50, 215, 75, 0.12);
+            border-color: var(--success);
         }
         .circle { 
-            width: 28px; height: 28px; border-radius: 50%; 
-            border: 2.5px solid var(--sub); display: flex; align-items: center; justify-content: center; 
-            flex-shrink: 0; transition: all 0.3s cubic-bezier(0.2, 1, 0.2, 1);
-            background: rgba(255,255,255,0.02);
+            width: 26px; height: 26px; border-radius: 50%; 
+            border: 2px solid var(--sub); display: flex; align-items: center; justify-content: center; 
+            flex-shrink: 0; transition: all 0.25s ease;
+            background: transparent;
         }
         .active .circle { 
-            background: var(--success); border-color: var(--success); color: white; 
-            font-size: 16px; font-weight: bold;
-            box-shadow: 0 0 15px rgba(50, 215, 75, 0.4);
-            transform: scale(1.1);
-        }
-        .check-pill span {
-            font-weight: 500;
-            letter-spacing: 0.3px;
+            background: var(--success); 
+            border-color: var(--success); 
+            color: white; 
+            font-size: 14px; 
+            font-weight: bold;
         }
 
         .modal { display: none; position: fixed; inset: 0; background: var(--bg); z-index: 1000; padding: 30px; overflow-y: auto; }
@@ -541,66 +530,50 @@
 
             renderSummary(tasks, view) {
                 let html = `<h2 style="color:var(--gold); margin-bottom: 25px;">📋 Daily Review</h2>
-                    <div style="background: linear-gradient(135deg, rgba(10, 132, 255, 0.1), rgba(10, 132, 255, 0.05)); border-radius: 24px; padding: 20px; margin-bottom: 20px; border: 1.5px solid rgba(10, 132, 255, 0.2);">
-                        <h3 style="margin: 0 0 15px 0; color: var(--accent);">✓ Completed Tasks</h3>
-                        <div class="tasks-scroll" style="max-height: 40vh; overflow-y: auto; padding-right: 8px;">`;
+                    <h3 style="color: var(--accent); margin-bottom: 15px;">✓ Completed Tasks</h3>
+                    <div class="tasks-scroll" style="max-height: 45vh; overflow-y: auto; padding-right: 5px; margin-bottom: 25px;">`;
                 
                 tasks.forEach(t => {
-                    const isDone = this.db[this.dateStr].checks[t.t];
-                    html += `<div class="check-pill ${isDone?'active':''}" onclick="app.toggleCheck('${t.t}')">
+                    const isDone = this.db[this.dateStr].checks[t.t] || false;
+                    html += `<div class="check-pill ${isDone?'active':''}" data-task="${t.t}" onclick="event.stopPropagation(); app.toggleCheck('${t.t}')">
                         <div class="circle">${isDone?'✓':''}</div><span>${t.t}</span>
                     </div>`;
                 });
                 
-                html += `</div></div><div style="background: linear-gradient(135deg, rgba(50, 215, 75, 0.1), rgba(50, 215, 75, 0.05)); border-radius: 24px; padding: 20px; margin-bottom: 20px; border: 1.5px solid rgba(50, 215, 75, 0.2);">
-                    <h3 style="margin: 0 0 15px 0; color: var(--success);">🎯 Daily Habits</h3>
-                    <div class="habits-grid">`;
+                html += `</div><h3 style="color: var(--success); margin-bottom: 15px;">🎯 Daily Habits</h3><div class="habits-grid">`;
                 
                 HABITS.forEach(h => {
-                    const isActive = this.db[this.dateStr].habits[h];
-                    html += `<div class="habit-pill ${isActive?'active':''}" onclick="app.toggleHabit('${h}')">${h}</div>`;
+                    const isActive = this.db[this.dateStr].habits[h] || false;
+                    html += `<div class="habit-pill ${isActive?'active':''}" data-habit="${h}" onclick="event.stopPropagation(); app.toggleHabit('${h}')">${h}</div>`;
                 });
                 
-                html += `</div></div><h3 style="color: var(--gold); margin-bottom: 12px;">📝 Journal</h3>
+                html += `</div><h3 style="color: var(--gold); margin-bottom: 12px; margin-top: 25px;">📝 Journal</h3>
                     <textarea id="jBox" class="journal" placeholder="Reflections, wins & lessons..." oninput="app.db['${this.dateStr}'].journal=this.value; app.save()">${this.db[this.dateStr].journal}</textarea>
-                    <button class="btn btn-p" style="background: linear-gradient(135deg, var(--success), #2ecc71); margin-top: 20px; width: 100%; margin-bottom: 20px; font-size: 18px; letter-spacing: 1px;" onclick="app.lockDay()">✓ ARCHIVE DAY</button>`;
+                    <button class="btn btn-p" style="background: var(--success); margin-top: 25px; width: 100%; margin-bottom: 20px; font-size: 18px; letter-spacing: 1px;" onclick="app.lockDay()">✓ ARCHIVE DAY</button>`;
                 
                 view.innerHTML = html;
             },
 
             toggleCheck(t) { 
-                const scrollDiv = document.querySelector('.tasks-scroll');
-                const scrollPos = scrollDiv ? scrollDiv.scrollTop : 0;
-                
                 this.db[this.dateStr].checks[t] = !this.db[this.dateStr].checks[t]; 
                 this.save();
                 
-                // Find and update only the clicked element
-                const pills = document.querySelectorAll('.check-pill');
-                pills.forEach(pill => {
-                    if(pill.textContent.trim().endsWith(t)) {
-                        pill.classList.toggle('active');
-                        const circle = pill.querySelector('.circle');
-                        circle.textContent = this.db[this.dateStr].checks[t] ? '✓' : '';
-                    }
-                });
-                
-                // Restore scroll position
-                if(scrollDiv) {
-                    scrollDiv.scrollTop = scrollPos;
+                const pill = document.querySelector(`[data-task="${t}"]`);
+                if(pill) {
+                    pill.classList.toggle('active');
+                    const circle = pill.querySelector('.circle');
+                    circle.textContent = this.db[this.dateStr].checks[t] ? '✓' : '';
                 }
             },
 
             toggleHabit(h) {
                 this.db[this.dateStr].habits[h] = !this.db[this.dateStr].habits[h];
                 this.save();
-                // Find and update only the clicked element
-                const habits = document.querySelectorAll('.habit-pill');
-                habits.forEach(habit => {
-                    if(habit.textContent.trim() === h) {
-                        habit.classList.toggle('active');
-                    }
-                });
+                
+                const habit = document.querySelector(`[data-habit="${h}"]`);
+                if(habit) {
+                    habit.classList.toggle('active');
+                }
             },
 
             lockDay() {
