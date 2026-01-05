@@ -44,11 +44,43 @@
         .timer-val { position: absolute; font-size: 70px; font-weight: 200; font-variant-numeric: tabular-nums; }
 
         .history-item { background: var(--card); border-radius: 20px; padding: 20px; margin-bottom: 15px; border: 1px solid #333; }
-        .check-pill { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; margin-bottom: 8px; cursor: pointer; transition: 0.2s; }
-        .check-pill:hover { background: rgba(255,255,255,0.08); }
-        .check-pill.active { border: 1px solid var(--success); background: rgba(50, 215, 75, 0.1); }
-        .circle { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--sub); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .active .circle { background: var(--success); border-color: var(--success); color: white; font-size: 12px; font-weight: bold; }
+        .check-pill { 
+            display: flex; align-items: center; gap: 15px; 
+            background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.08)); 
+            padding: 18px 20px; border-radius: 18px; margin-bottom: 10px; 
+            cursor: pointer; transition: all 0.3s cubic-bezier(0.2, 1, 0.2, 1);
+            border: 1.5px solid rgba(255,255,255,0.05);
+            user-select: none;
+        }
+        .check-pill:hover { 
+            background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.12));
+            border-color: rgba(255,255,255,0.1);
+            transform: translateX(4px);
+        }
+        .check-pill.active { 
+            border: 1.5px solid var(--success); 
+            background: linear-gradient(135deg, rgba(50, 215, 75, 0.15), rgba(50, 215, 75, 0.08));
+            box-shadow: 0 0 20px rgba(50, 215, 75, 0.2);
+        }
+        .check-pill.active:hover {
+            transform: translateX(4px) scale(1.02);
+        }
+        .circle { 
+            width: 28px; height: 28px; border-radius: 50%; 
+            border: 2.5px solid var(--sub); display: flex; align-items: center; justify-content: center; 
+            flex-shrink: 0; transition: all 0.3s cubic-bezier(0.2, 1, 0.2, 1);
+            background: rgba(255,255,255,0.02);
+        }
+        .active .circle { 
+            background: var(--success); border-color: var(--success); color: white; 
+            font-size: 16px; font-weight: bold;
+            box-shadow: 0 0 15px rgba(50, 215, 75, 0.4);
+            transform: scale(1.1);
+        }
+        .check-pill span {
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
 
         .modal { display: none; position: fixed; inset: 0; background: var(--bg); z-index: 1000; padding: 30px; overflow-y: auto; }
         .modal.active { display: block; animation: modalUp 0.4s cubic-bezier(0.1, 0.9, 0.2, 1); }
@@ -508,9 +540,10 @@
             },
 
             renderSummary(tasks, view) {
-                let html = `<h2 style="color:var(--gold)">📋 Daily Review</h2>
-                    <h3>Completed Tasks</h3>
-                    <div class="tasks-scroll" style="max-height: 35vh; overflow-y: auto; padding-right: 10px;">`;
+                let html = `<h2 style="color:var(--gold); margin-bottom: 25px;">📋 Daily Review</h2>
+                    <div style="background: linear-gradient(135deg, rgba(10, 132, 255, 0.1), rgba(10, 132, 255, 0.05)); border-radius: 24px; padding: 20px; margin-bottom: 20px; border: 1.5px solid rgba(10, 132, 255, 0.2);">
+                        <h3 style="margin: 0 0 15px 0; color: var(--accent);">✓ Completed Tasks</h3>
+                        <div class="tasks-scroll" style="max-height: 40vh; overflow-y: auto; padding-right: 8px;">`;
                 
                 tasks.forEach(t => {
                     const isDone = this.db[this.dateStr].checks[t.t];
@@ -519,16 +552,18 @@
                     </div>`;
                 });
                 
-                html += `</div><h3>Daily Habits</h3><div class="habits-grid">`;
+                html += `</div></div><div style="background: linear-gradient(135deg, rgba(50, 215, 75, 0.1), rgba(50, 215, 75, 0.05)); border-radius: 24px; padding: 20px; margin-bottom: 20px; border: 1.5px solid rgba(50, 215, 75, 0.2);">
+                    <h3 style="margin: 0 0 15px 0; color: var(--success);">🎯 Daily Habits</h3>
+                    <div class="habits-grid">`;
                 
                 HABITS.forEach(h => {
                     const isActive = this.db[this.dateStr].habits[h];
                     html += `<div class="habit-pill ${isActive?'active':''}" onclick="app.toggleHabit('${h}')">${h}</div>`;
                 });
                 
-                html += `</div><h3>📝 Journal</h3>
+                html += `</div></div><h3 style="color: var(--gold); margin-bottom: 12px;">📝 Journal</h3>
                     <textarea id="jBox" class="journal" placeholder="Reflections, wins & lessons..." oninput="app.db['${this.dateStr}'].journal=this.value; app.save()">${this.db[this.dateStr].journal}</textarea>
-                    <button class="btn btn-p" style="background:var(--success); margin-top:20px; width: 100%; margin-bottom: 20px;" onclick="app.lockDay()">✓ Archive Day</button>`;
+                    <button class="btn btn-p" style="background: linear-gradient(135deg, var(--success), #2ecc71); margin-top: 20px; width: 100%; margin-bottom: 20px; font-size: 18px; letter-spacing: 1px;" onclick="app.lockDay()">✓ ARCHIVE DAY</button>`;
                 
                 view.innerHTML = html;
             },
@@ -597,6 +632,11 @@
                         </div>
                     </div>
                 `).join('');
+                
+                body.innerHTML += `<div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #333;">
+                    <button class="btn btn-s" style="width: 100%; color: var(--danger); margin-top: 10px;" onclick="if(confirm('Clear ALL data and restart? This cannot be undone.')) { app.db = {}; app.save(); location.reload(); }">🗑️ Clear All Data & Restart</button>
+                </div>`;
+                
                 this.toggleModal('historyModal');
             },
 
@@ -611,7 +651,9 @@
                 if(confirm(`Delete entire archive for ${date}? This cannot be undone.`)) { 
                     delete this.db[date]; 
                     this.save();
-                    this.showHistory();
+                    setTimeout(() => {
+                        this.showHistory();
+                    }, 100);
                 } 
             },
 
