@@ -569,8 +569,12 @@
             },
 
             toggleCheck(t) { 
+                const scrollDiv = document.querySelector('.tasks-scroll');
+                const scrollPos = scrollDiv ? scrollDiv.scrollTop : 0;
+                
                 this.db[this.dateStr].checks[t] = !this.db[this.dateStr].checks[t]; 
                 this.save();
+                
                 // Find and update only the clicked element
                 const pills = document.querySelectorAll('.check-pill');
                 pills.forEach(pill => {
@@ -580,6 +584,11 @@
                         circle.textContent = this.db[this.dateStr].checks[t] ? '✓' : '';
                     }
                 });
+                
+                // Restore scroll position
+                if(scrollDiv) {
+                    scrollDiv.scrollTop = scrollPos;
+                }
             },
 
             toggleHabit(h) {
