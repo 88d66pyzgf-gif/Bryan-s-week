@@ -207,7 +207,8 @@
 
         const HABITS = [
             "Eye Training", "Brush Teeth", "Toe-Spreaders", "Sleep w/ Wudu", 
-            "Dust Bed", "Wake Praising", "Clean Nose", "Oil Beard/Hair"
+            "Dust Bed", "Wake Praising", "Clean Nose", "Oil Beard/Hair",
+            "Learn Allah's Name"
         ];
 
         const SCHEDULE = {
@@ -227,6 +228,8 @@
                 {t: 'Pray Maghrib', p: true, tip: '🤲 HIGHLY BLESSED - Between Adhan & Iqamah = never rejected. In Sujud = CLOSEST to Allah, ask with humility. After Tashahhud = dua accepted. Ask for guidance, blessings, provision, success. Maghrib is transitional power hour. Allah\'s mercy peaks. Ask big.'},
                 {t: 'Break Fast'},
                 {t: 'Bus to Work'},
+                {t: 'Learn Allah\'s Name (at Work)', p: true, tip: '🤲 Perfect time at work - learn and reflect on one Name of Allah. Write it down in journal. Apply it to your life today.'},
+                {t: 'Driving Test #1 (at Work)'},
                 {t: 'Pray Isha', p: true, tip: '🤲 NIGHT POWER - Between Adhan & Iqamah = never rejected. In Sujud = close to Allah. After Tashahhud = dua accepted. Ask for peaceful sleep, protection, tomorrow\'s strength. Night is when Allah listens. Before sleep = powerful time. Sincere dua = granted.'}
             ],
             'Tuesday': [
@@ -343,7 +346,7 @@
                 }
                 
                 if(!this.db[this.dateStr]) {
-                    this.db[this.dateStr] = { checks: {}, habits: {}, journal: "", score: 0, locked: false, lastIdx: 0 };
+                    this.db[this.dateStr] = { checks: {}, habits: {}, journal: "", allahName: "", score: 0, locked: false, lastIdx: 0 };
                 } else {
                     // Restore last position
                     this.idx = this.db[this.dateStr].lastIdx || 0;
@@ -675,7 +678,7 @@
                 const entry = this.db[date];
                 const completedTasks = Object.keys(entry.checks || {}).filter(c => entry.checks[c]);
                 const completedHabits = Object.keys(entry.habits || {}).filter(h => entry.habits[h]);
-                alert(`📅 ${date}\n✓ Score: ${entry.score}%\n\n📋 Tasks (${completedTasks.length}):\n${completedTasks.join('\n') || 'None'}\n\n🎯 Habits (${completedHabits.length}):\n${completedHabits.join('\n') || 'None'}\n\n📝 Journal:\n${entry.journal || '(Empty)'}`);
+                alert(`📅 ${date}\n✓ Score: ${entry.score}%\n\n📋 Tasks (${completedTasks.length}):\n${completedTasks.join('\n') || 'None'}\n\n🎯 Habits (${completedHabits.length}):\n${completedHabits.join('\n') || 'None'}\n\n🕌 Allah's Name:\n${entry.allahName || '(Not recorded)'}\n\n📝 Journal:\n${entry.journal || '(Empty)'}`);
             },
 
             clearAllData() {
