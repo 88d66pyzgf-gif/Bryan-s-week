@@ -121,6 +121,7 @@
 
     <div class="nav-bar" id="navBar">
         <button class="btn btn-s" onclick="app.prev()">← Back</button>
+        <button class="btn btn-p" onclick="app.savePosition()" style="background: var(--gold); color: black; font-weight: 800;">💾 Save Position</button>
         <button class="btn btn-p" onclick="app.next()">Next →</button>
     </div>
 
@@ -750,6 +751,13 @@
                 this.db[this.dateStr].lastIdx = this.idx;
                 this.save();
                 this.render(); 
+            },
+
+            savePosition() {
+                this.db[this.dateStr].lastIdx = this.idx;
+                this.save();
+                this.haptic([100, 50, 100]);
+                alert('✅ Position saved at Task ' + (this.idx + 1));
             }
         };
 
