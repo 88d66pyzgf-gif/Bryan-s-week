@@ -341,7 +341,10 @@
                 }
                 
                 if(!this.db[this.dateStr]) {
-                    this.db[this.dateStr] = { checks: {}, habits: {}, journal: "", score: 0, locked: false };
+                    this.db[this.dateStr] = { checks: {}, habits: {}, journal: "", score: 0, locked: false, lastIdx: 0 };
+                } else {
+                    // Restore last position
+                    this.idx = this.db[this.dateStr].lastIdx || 0;
                 }
                 
                 this.setupNotifications();
@@ -735,6 +738,8 @@
             next() { 
                 this.haptic(20); 
                 this.idx++; 
+                this.db[this.dateStr].lastIdx = this.idx;
+                this.save();
                 this.render(); 
             },
 
@@ -742,6 +747,8 @@
                 this.haptic(20); 
                 this.riceMode = false; 
                 this.idx = Math.max(0, this.idx - 1); 
+                this.db[this.dateStr].lastIdx = this.idx;
+                this.save();
                 this.render(); 
             }
         };
