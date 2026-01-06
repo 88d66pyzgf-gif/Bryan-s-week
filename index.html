@@ -4,10 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Elite Legacy">
-    <meta name="theme-color" content="#000000">
-    <link rel="manifest" href="data:application/json,{%22name%22:%22Elite%20Legacy%22,%22short_name%22:%22Elite%20Legacy%22,%22start_url%22:%22/%22,%22display%22:%22standalone%22,%22background_color%22:%22%23000000%22,%22theme_color%22:%22%23000000%22,%22icons%22:[{%22src%22:%22data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%20192%20192%27%3E%3Crect%20fill=%27%230A84FF%27%20width=%27192%27%20height=%27192%27/%3E%3Ctext%20x=%2796%27%20y=%27120%27%20font-size=%27100%27%20fill=%27white%27%20text-anchor=%27middle%27%20dominant-baseline=%27middle%27%3E%E2%9C%93%3C/text%3E%3C/svg%3E%22,%22sizes%22:%22192x192%22,%22type%22:%22image/svg+xml%22}]}">
     <title>Elite Legacy Definitive</title>
     <style>
         :root {
@@ -20,102 +16,45 @@
             --success: #32d74b;
             --danger: #ff453a;
         }
-
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
-        body { 
-            background: var(--bg); color: var(--text); 
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif; 
-            height: 100vh; overflow: hidden; display: flex; flex-direction: column; 
-        }
-
-        .container { flex: 1; overflow-y: auto; padding: 25px; padding-bottom: 140px; scroll-behavior: smooth; }
-        
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; margin-top: 10px; }
-        .day-title { font-size: 34px; font-weight: 800; letter-spacing: -1px; }
-
-        .card { 
-            background: var(--card); border-radius: 30px; padding: 30px; 
-            border: 1px solid rgba(255,255,255,0.1); 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-            animation: cardEntrance 0.6s cubic-bezier(0.2, 1, 0.2, 1);
-        }
-        @keyframes cardEntrance { from { opacity: 0; transform: scale(0.9) translateY(40px); } to { opacity: 1; transform: scale(1) translateY(0); } }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, sans-serif; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+        .container { flex: 1; overflow-y: auto; padding: 25px; padding-bottom: 140px; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .day-title { font-size: 34px; font-weight: 800; }
+        .card { background: var(--card); border-radius: 30px; padding: 30px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 15px 35px rgba(0,0,0,0.6); animation: cardEntrance 0.6s ease; }
+        @keyframes cardEntrance { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
         .timer-wrap { position: relative; width: 240px; height: 240px; margin: 20px auto; display: flex; align-items: center; justify-content: center; }
-        .timer-svg { transform: rotate(-90deg); width: 100%; height: 100%; }
+        .timer-svg { transform: rotate(-90deg); }
         .timer-bg { fill: none; stroke: rgba(255,255,255,0.05); stroke-width: 12; }
-        .timer-prog { fill: none; stroke: var(--accent); stroke-width: 12; stroke-linecap: round; stroke-dasharray: 628; stroke-dashoffset: 0; transition: stroke-dashoffset 1s linear, stroke 0.3s; }
-        .timer-val { position: absolute; font-size: 70px; font-weight: 200; font-variant-numeric: tabular-nums; }
-
-        .history-item { background: var(--card); border-radius: 20px; padding: 20px; margin-bottom: 15px; border: 1px solid #333; }
-        .check-pill { 
-            display: flex; align-items: center; gap: 15px; 
-            background: rgba(255,255,255,0.04); 
-            padding: 16px 18px; border-radius: 16px; margin-bottom: 12px; 
-            cursor: pointer; transition: all 0.25s ease;
-            border: 1px solid rgba(255,255,255,0.08);
-            user-select: none;
-        }
-        .check-pill:active { transform: scale(0.98); }
-        .check-pill.active { 
-            background: rgba(50, 215, 75, 0.12);
-            border-color: var(--success);
-        }
-        .circle { 
-            width: 26px; height: 26px; border-radius: 50%; 
-            border: 2px solid var(--sub); display: flex; align-items: center; justify-content: center; 
-            flex-shrink: 0; transition: all 0.25s ease;
-            background: transparent;
-        }
-        .active .circle { 
-            background: var(--success); 
-            border-color: var(--success); 
-            color: white; 
-            font-size: 14px; 
-            font-weight: bold;
-        }
-
+        .timer-prog { fill: none; stroke: var(--accent); stroke-width: 12; stroke-linecap: round; stroke-dasharray: 628; }
+        .timer-val { position: absolute; font-size: 70px; font-weight: 200; }
+        .check-pill { display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.04); padding: 16px 18px; border-radius: 16px; margin-bottom: 12px; cursor: pointer; border: 1px solid rgba(255,255,255,0.08); }
+        .check-pill.active { background: rgba(50, 215, 75, 0.12); border-color: var(--success); }
+        .circle { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--sub); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .active .circle { background: var(--success); border-color: var(--success); color: white; font-weight: bold; }
         .modal { display: none; position: fixed; inset: 0; background: var(--bg); z-index: 1000; padding: 30px; overflow-y: auto; }
-        .modal.active { display: block; animation: modalUp 0.4s cubic-bezier(0.1, 0.9, 0.2, 1); }
-        @keyframes modalUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-        
-        .p-block { margin-bottom: 30px; border-bottom: 1px solid #222; padding-bottom: 20px; }
-        .p-title { font-size: 18px; color: var(--gold); font-weight: 700; margin-bottom: 10px; }
-        .p-arab { font-size: 16px; color: var(--accent); line-height: 1.8; margin-bottom: 12px; }
-        .p-eng { font-size: 14px; color: #aaa; line-height: 1.6; }
-
+        .modal.active { display: block; }
         .nav-bar { position: fixed; bottom: 0; width: 100%; padding: 25px; background: linear-gradient(0deg, #000 70%, transparent); display: flex; gap: 12px; z-index: 99; }
-        .btn { flex: 1; padding: 20px; border-radius: 20px; border: none; font-weight: 700; font-size: 16px; cursor: pointer; transition: 0.2s; }
-        .btn:active { transform: scale(0.95); }
+        .btn { flex: 1; padding: 20px; border-radius: 20px; border: none; font-weight: 700; cursor: pointer; }
         .btn-p { background: var(--accent); color: white; }
         .btn-s { background: #2c2c2e; color: white; }
-        .btn-save { background: var(--gold); color: black; font-weight: 800; }
-        .journal { width: 100%; height: 140px; background: #2c2c2e; border: none; border-radius: 20px; color: #fff; padding: 20px; font-size: 16px; margin: 15px 0; outline: none; font-family: inherit; resize: vertical; }
-        
+        .btn-save { background: var(--gold); color: black; }
+        .journal { width: 100%; height: 140px; background: #2c2c2e; border: none; border-radius: 20px; color: white; padding: 20px; margin: 15px 0; font-family: inherit; }
         .habits-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; }
-        .habit-pill { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 12px; text-align: center; font-size: 12px; cursor: pointer; transition: 0.2s; border: 1px solid #333; }
+        .habit-pill { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 12px; text-align: center; font-size: 12px; cursor: pointer; border: 1px solid #333; }
         .habit-pill.active { background: rgba(50, 215, 75, 0.15); border-color: var(--success); }
-
         h2 { margin: 10px 0 20px 0; }
         h3 { color: var(--gold); margin: 15px 0 10px 0; }
-        p { margin: 5px 0; }
-
-        .scroll-view { max-height: 40vh; overflow-y: auto; }
-
-        .pause-state { opacity: 0.6; }
-        .timer-val.paused { animation: pulse 1s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
     </style>
 </head>
 <body>
-
     <div class="container">
         <div class="header">
             <div>
                 <div id="dateLabel" style="color:var(--sub); font-size:14px"></div>
                 <div class="day-title" id="dayLabel">Monday</div>
             </div>
-            <button onclick="app.showHistory()" style="font-size:28px; background:none; border:none; cursor: pointer; color: white;">📂</button>
+            <button onclick="app.showHistory()" style="font-size:28px; background:none; border:none; color: white; cursor: pointer;">📂</button>
         </div>
         <div id="view"></div>
     </div>
@@ -126,18 +65,16 @@
         <button class="btn btn-p" onclick="app.next()">Next →</button>
     </div>
 
-    <!-- Prayer Modal -->
     <div id="prayerModal" class="modal">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:30px;">
             <h1 style="color:var(--gold)">📖 Prayer Guide</h1>
             <button onclick="app.toggleModal('prayerModal')" style="font-size:30px; background:none; border:none; color:white; cursor: pointer;">✕</button>
         </div>
         <div id="prayerBody"></div>
     </div>
 
-    <!-- History Modal -->
     <div id="historyModal" class="modal">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:30px;">
             <h1 style="color:var(--accent)">📚 Vault</h1>
             <button onclick="app.toggleModal('historyModal')" style="font-size:30px; background:none; border:none; color:white; cursor: pointer;">✕</button>
         </div>
@@ -146,191 +83,74 @@
 
     <script>
         const PRAYERS = [
-            {
-                t: "Opening Supplication",
-                a: "Subhanakal-lahumma wabihamdika, watabarakas-muka, wataa'ala jadduka, wala ilaha ghayruka.",
-                e: "How perfect you are, O Allah. I praise you. How blessed is Your name. How lofty is Your position. And none has the right to be worshipped but You."
-            },
-            {
-                t: "Seeking Refuge",
-                a: "A'auodu billaahi minash-shaytaanir rajeem",
-                e: "I seek refuge in Allah from the accursed Shaytan (devil)."
-            },
-            {
-                t: "Bismillah",
-                a: "Bismillaahir ar-Rahmani ar-Raheem",
-                e: "In the name of God, the infinitely Compassionate and Merciful."
-            },
-            {
-                t: "Surah Al-Fatihah",
-                a: "Al hamdu lillaahi rabbil 'alameen. Ar-Rahmani ar-Raheem. Maaliki yawmid deen. Iyyaaka na'aboodu wa iyyaaka nasta'een. Ihdeenas siraatal mustaqeem. Siraatal ladheena an 'amta' alayhim. Ghayril maghduubi' alayhim waladawleen.",
-                e: "Praise be to Allah, Lord of all the worlds. The Most Gracious, the Most Merciful. Master on the Day of Recompense. You alone do we worship, and You alone do we ask for help. Guide us on the straight path. The path of those who You have bestowed favor, not of those who have evoked Your anger or of those who are astray."
-            },
-            {
-                t: "Ruku (Bowing)",
-                a: "Subhanna rabbeeyal adheem",
-                e: "How perfect is my Lord, the Magnificent"
-            },
-            {
-                t: "Rising from Ruku",
-                a: "Samee Allahu leeman hameeda. Rabbana walakal hamd",
-                e: "Allah hears those who praise Him. Our Lord, to You is all praise."
-            },
-            {
-                t: "Prostration (Sujud)",
-                a: "Subhanna rabbeeyal 'alaa",
-                e: "How perfect is my Lord, the Most High"
-            },
-            {
-                t: "Supplication in Prostration",
-                a: "Rabbigh-fir lee",
-                e: "O my Lord, forgive me."
-            },
-            {
-                t: "Tashahhud",
-                a: "At Tahiyyaatu lilaahi was Salawaatu wat tayibaatu. Assalaamu 'alaika ayyuhan nabiyyu wa rahmatu Allahi wa barakaatuh. Assalaamu 'alaynaa wa 'alaa 'ebaadillaahis saaliheen. Ash hadu allaa ilaha illa Allah wa ash hadu anna Muhammadan 'abduhuu wa rasuuluh",
-                e: "All compliments, prayers and pure words are due to Allah. Peace be upon you, O Prophet, and the mercy of Allah and His blessings. Peace be upon us and on the righteous slaves of Allah. I bear witness that none has the right to be worshipped except Allah, and I bear witness that Muhammad is His slave and Messenger."
-            },
-            {
-                t: "Salawat (Prayers on Prophet)",
-                a: "Allahumma salli 'ala Muhammadin wa 'ala aali Muhammad, kamaa salayta 'ala Ibraaheem wa 'ala aali Ibrahim. Innaka Hameedun Majeed. Wa baarik 'ala Muhammadin wa 'ala aali Muhammad, kamaa baarakta 'ala Ibraaheem wa 'ala aali Ibrahim. Innaka Hameedun Majeed",
-                e: "O Allah, send prayers upon Muhammad and upon the family of Muhammad, just as You sent prayers upon Ibrahim and the family of Ibrahim. Verily, you are full of Praise and Majesty. O Allah, bless Muhammad and the family of Muhammad as You blessed Ibrahim and the family of Ibraaheem. Verily, you are full of Praise and Majesty."
-            }
-        ];
+    {
+        t: "Opening Supplication",
+        a: "Subhanakal-lahumma wabihamdika, watabarakas-muka, wataa'ala jadduka, wala ilaha ghayruka.",
+        e: "How perfect you are, O Allah. I praise you. How blessed is Your name. How lofty is Your position. And none has the right to be worshipped but You."
+    },
+    {
+        t: "Seeking Refuge",
+        a: "A'auodu billaahi minash-shaytaanir rajeem",
+        e: "I seek refuge in Allah from the accursed Shaytan (devil)."
+    },
+    {
+        t: "Bismillah",
+        a: "Bismillaahir ar-Rahmani ar-Raheem",
+        e: "In the name of God, the infinitely Compassionate and Merciful."
+    },
+    {
+        t: "Surah Al-Fatihah",
+        a: "Al hamdu lillaahi rabbil alameen. Ar-Rahmani ar-Raheem. Maaliki yawmid deen. Iyyaaka na'aboodu wa iyyaaka nasta'een. Ihdeenas siraatal mustaqeem.",
+        e: "Praise be to Allah, Lord of all the worlds. The Most Gracious, the Most Merciful. Master on the Day of Recompense. You alone do we worship, and You alone do we ask for help. Guide us on the straight path."
+    },
+    {
+        t: "Ruku (Bowing)",
+        a: "Subhanna rabbeeyal adheem",
+        e: "How perfect is my Lord, the Magnificent"
+    },
+    {
+        t: "Rising from Ruku",
+        a: "Samee Allahu leeman hameeda. Rabbana walakal hamd",
+        e: "Allah hears those who praise Him. Our Lord, to You is all praise."
+    },
+    {
+        t: "Prostration (Sujud)",
+        a: "Subhanna rabbeeyal alaa",
+        e: "How perfect is my Lord, the Most High"
+    },
+    {
+        t: "Supplication in Prostration",
+        a: "Rabbigh-fir lee",
+        e: "O my Lord, forgive me."
+    },
+    {
+        t: "Tashahhud",
+        a: "At Tahiyyaatu lilaahi was Salawaatu wat tayibaatu. Assalaamu alaika ayyuhan nabiyyu wa rahmatu Allahi wa barakaatuh.",
+        e: "All compliments, prayers and pure words are due to Allah. Peace be upon you, O Prophet, and the mercy of Allah and His blessings."
+    },
+    {
+        t: "Salawat (Prayers on Prophet)",
+        a: "Allahumma salli ala Muhammadin wa ala aali Muhammad, kamaa salayta ala Ibraaheem wa ala aali Ibrahim.",
+        e: "O Allah, send prayers upon Muhammad and upon the family of Muhammad, just as You sent prayers upon Ibrahim and the family of Ibrahim."
+    }
+];
 
-        const RICE_EX = [
-            "Claw Machine", "Claw Turbo", "Deep Squeezes", "Wrist Rotations", "Opposite Rotations", 
-            "Straight Down/Spread", "Finger Pulls", "Fist Front/Back", "Fist Sideways", "Lobster Claw", 
-            "Crab Claw", "Doorknob", "Spread/Close/Pull", "Spread/Pull Up", "Thumb Push", 
-            "Doorknob Rep", "Doorknob Opp", "Fast Cupping", "Squeeze/Release", "MAX Squeeze"
-        ];
+        const RICE_EX = ["Claw Machine", "Claw Turbo", "Deep Squeezes", "Wrist Rotations", "Opposite Rotations", "Straight Down/Spread", "Finger Pulls", "Fist Front/Back", "Fist Sideways", "Lobster Claw", "Crab Claw", "Doorknob", "Spread/Close/Pull", "Spread/Pull Up", "Thumb Push", "Doorknob Rep", "Doorknob Opp", "Fast Cupping", "Squeeze/Release", "MAX Squeeze"];
 
-        const HABITS = [
-            "Eye Training", "Brush Teeth", "Toe-Spreaders", "Sleep w/ Wudu", 
-            "Dust Bed", "Wake Praising", "Clean Nose", "Oil Beard/Hair",
-            "Learn Allah's Name"
-        ];
+        const HABITS = ["Eye Training", "Brush Teeth", "Toe-Spreaders", "Sleep w Wudu", "Dust Bed", "Wake Praising", "Clean Nose", "Oil Beard", "Learn Allahs Name"];
 
         const SCHEDULE = {
-            'Monday': [
-                {t: 'Start Fasting'},
-                {t: 'Pray Fajr', p: true, tip: '🤲 PEAK HOUR - Last third of night. Allah descends specifically to listen. Ask for your BIGGEST goals: YouTube success, driving mastery, cars, house. Between Adhan & Iqamah dua NEVER rejected. In Sujud = closest to Allah. After Tashahhud = dua guaranteed. Be sincere, be specific, be grateful. This is the BEST time of entire day.'},
-                {t: '6-7am Out Work'},
-                {t: 'Bus (Nap)'},
-                {t: 'Rice Bucket', m: 'RICE'},
-                {t: 'Script + Film YouTube'},
-                {t: 'Go to Driving School'},
-                {t: 'Bus Home'},
-                {t: 'Pray Dhuhr', p: true, tip: '🤲 POWERFUL TIME - Between Adhan & Iqamah = dua NEVER rejected. In Sujud = closest to Allah. After Tashahhud = guaranteed acceptance. Ask for YouTube growth, video success, creative ideas, filming excellence. Make intention pure. Allah listens at this hour.'},
-                {t: 'Sleep', h: 'Toe-spreaders'},
-                {t: 'Wake Up'},
-                {t: 'Pray Asr', p: true, tip: '🤲 BLESSED HOUR - Between Adhan & Iqamah = never rejected. In Sujud = nearest to Allah. After Tashahhud = dua accepted. Ask for driving skills, mental clarity, knowledge, strength. Asr is blessed afternoon hour. Be sincere with Allah. He listens.'},
-                {t: 'Pray Maghrib', p: true, tip: '🤲 HIGHLY BLESSED - Between Adhan & Iqamah = never rejected. In Sujud = CLOSEST to Allah, ask with humility. After Tashahhud = dua accepted. Ask for guidance, blessings, provision, success. Maghrib is transitional power hour. Allah\'s mercy peaks. Ask big.'},
-                {t: 'Break Fast'},
-                {t: 'Bus to Work'},
-                {t: 'Learn Allah\'s Name (at Work)', p: true, tip: '🤲 Perfect time at work - learn and reflect on one Name of Allah. Write it down in journal. Apply it to your life today.'},
-                {t: 'Driving Test #1 (at Work)'},
-                {t: 'Pray Isha', p: true, tip: '🤲 NIGHT POWER - Between Adhan & Iqamah = never rejected. In Sujud = close to Allah. After Tashahhud = dua accepted. Ask for peaceful sleep, protection, tomorrow\'s strength. Night is when Allah listens. Before sleep = powerful time. Sincere dua = granted.'}
-            ],
-            'Tuesday': [
-                {t: 'Pray Fajr', p: true, tip: '🤲 Most blessed time - Allah\'s mercy at peak. Ask for clarity, strength & YouTube growth. Be specific.'},
-                {t: '6-7am Out Work'},
-                {t: 'Bus (Nap)'},
-                {t: 'Rice Bucket', m: 'RICE'},
-                {t: 'Edit + Preview + Upload YouTube'},
-                {t: 'Sleep', h: 'Toe-spreaders'},
-                {t: 'Wake Up'},
-                {t: 'Pray Dhuhr', p: true, tip: '🤲 Between Adhan & Iqamah - never rejected. Ask for success in editing & uploads. Sincere intention.'},
-                {t: 'Eat'},
-                {t: 'Work Out'},
-                {t: 'Pray Asr', p: true, tip: '🤲 After Tashahhud - ask for strength in workout, discipline & physical health. Allah accepts.'},
-                {t: 'Pray Maghrib', p: true, tip: '🤲 In Sujud - ask for gratitude, blessed body & continued strength. Humility wins here.'},
-                {t: 'Work (Driving Tests)'},
-                {t: 'Pray Isha', p: true, tip: '🤲 End of prayer - dua accepted. Ask for good performance, rest & tomorrow\'s blessings.'}
-            ],
-            'Wednesday': [
-                {t: 'Pray Fajr', p: true, tip: '🤲 PEAK BLESSED HOUR - Last third = Allah descends listening. Between Adhan & Iqamah = never rejected. In Sujud = closest. After Tashahhud = accepted. Ask for BIGGEST dreams: YouTube empire, car, house, mastery. Fajr is the TIME. Be bold + sincere. Allah answers.'},
-                {t: '6-7am Out Work'},
-                {t: 'Bus (Nap)'},
-                {t: 'Rice Bucket', m: 'RICE'},
-                {t: 'Script + Film YouTube'},
-                {t: 'Go to Driving School'},
-                {t: 'Bus Home'},
-                {t: 'Pray Dhuhr', p: true, tip: '🤲 POWERFUL - Between Adhan & Iqamah = NEVER rejected. In Sujud = closest to Allah. After Tashahhud = guaranteed. Ask for creative filming, perfect takes, viral content. Dhuhr power. Allah provides. Be sincere.'},
-                {t: 'Sleep', h: 'Toe-spreaders'},
-                {t: 'Wake Up'},
-                {t: 'Pray Asr', p: true, tip: '🤲 BLESSED HOUR - Between Adhan & Iqamah = never rejected. In Sujud = nearest. After Tashahhud = dua accepted. Ask for driving excellence, focused mind, skill. Asr blessed. Allah hears sincere hearts. Ask.'},
-                {t: 'Pray Maghrib', p: true, tip: '🤲 HIGHLY BLESSED - Between Adhan & Iqamah = never rejected. In Sujud = CLOSEST, ask with humility. After Tashahhud = granted. Ask for wisdom, right choices, blessed guidance. Maghrib power. Sujud = power. Sincere = answered.'},
-                {t: 'Work (Listen to Prava)'},
-                {t: 'Pray Isha', p: true, tip: '🤲 NIGHT POWER - Between Adhan & Iqamah = never rejected. In Sujud = close to Allah. After Tashahhud = dua accepted. Ask for good rest, mental clarity, tomorrow\'s strength. Night dua = powerful. Thank Allah. Sleep blessed.'}
-            ],
-            'Thursday': [
-                {t: 'Eat/Start Fasting'},
-                {t: 'Pray Fajr', p: true, tip: '🤲 SUPER POWER - Fajr after fasting = DOUBLED acceptance! Between Adhan & Iqamah = never rejected. In Sujud = closest. After Tashahhud = guaranteed. Ask for BIG goals. Fasting person\'s dua NEVER rejected. Ask for everything. Allah is listening EXTRA hard today.'},
-                {t: '6-7am Out Work'},
-                {t: 'Bus (Nap)'},
-                {t: 'Rice Bucket', m: 'RICE'},
-                {t: 'Edit + Preview + Upload YouTube'},
-                {t: 'Sleep', h: 'Toe-spreaders'},
-                {t: 'Wake Up'},
-                {t: 'Pray Dhuhr', p: true, tip: '🤲 SUPER POWER - While fasting + Between Adhan & Iqamah = SUPER POWER! In Sujud = closest. After Tashahhud = accepted. Ask for video success & growth. Fasting amplifies dua. Allah answers doubled. Ask for blessings today.'},
-                {t: 'Eat'},
-                {t: 'Work Out'},
-                {t: 'Pray Asr', p: true, tip: '🤲 HIGHLY BLESSED - Fasting + Between Adhan & Iqamah = doubled power. In Sujud = nearest. After Tashahhud = dua accepted. Ask for strength, discipline, athletic goals. Fasting = doubled acceptance. Allah listens EXTRA.'},
-                {t: 'Pray Maghrib', p: true, tip: '🤲 MOST POWERFUL - While fasting + Between Adhan & Iqamah + In Sujud = TRIPLE POWER! Ask for house, car, success. After Tashahhud = granted. Fasting amplifies EVERYTHING. This is PEAK power. Ask BIG. Allah answers fasting dua.'},
-                {t: 'Break Fast'},
-                {t: 'Work (Driving Tests)'},
-                {t: 'Pray Isha', p: true, tip: '🤲 BLESSED AFTER FAST - Between Adhan & Iqamah = never rejected. In Sujud = close. After Tashahhud = accepted. Ask for gratitude, tomorrow\'s success, blessings. After breaking fast = powerful. Fasting person = Allah listens. Thank Him too.'}
-            ],
-            'Friday': [
-                {t: 'Pray Fajr', p: true, tip: '🤲 FRIDAY FAJR - Blessed day begins! Last third = peak. Between Adhan & Iqamah = never rejected. In Sujud = closest. After Tashahhud = accepted. Ask BIG. Most favorable time. Allah\'s mercy at PEAK. Ask for everything on Friday.'},
-                {t: '6-7am Out Work'},
-                {t: 'Bus (Nap)'},
-                {t: 'Rice Bucket', m: 'RICE'},
-                {t: 'Shower'},
-                {t: 'Go to Driving School'},
-                {t: 'Go Home'},
-                {t: 'Pray Friday Prayer', p: true, tip: '🤲 BLESSED HOUR OF WEEK - Ask BETWEEN KHUTBAHS = BEST dua of week. NEVER rejected. In Sujud = closest. After Tashahhud = guaranteed. Ask for deepest desires, dreams, provision. Friday hour = Allah\'s peak listening. ASK BIG. This is the ONE HOUR.'},
-                {t: 'Sleep', h: 'Toe-spreaders'},
-                {t: 'Wake Up'},
-                {t: 'Pray Asr', p: true, tip: '🤲 FRIDAY HOUR CONTINUES - Between Adhan & Iqamah = never rejected. In Sujud = nearest. After Tashahhud = accepted. Ask for blessing, provision & success. Friday Asr = blessed. Allah listening. Hour of mercy.'},
-                {t: 'Pray Maghrib', p: true, tip: '🤲 FRIDAY SUPER BLESSED - Between Adhan & Iqamah = never rejected. In Sujud = CLOSEST, ask with humility. After Tashahhud = granted. Ask for EVERYTHING. Friday Maghrib = super blessed. Ask big. Allah answers Friday dua.'},
-                {t: 'Work (Listen to Prava)'},
-                {t: 'Pray Isha', p: true, tip: '🤲 FRIDAY END - Between Adhan & Iqamah = never rejected. In Sujud = close. After Tashahhud = accepted. Ask for sustained blessings, weekend success. Friday Isha = blessed. Gratitude counts. Thank Allah for blessed day.'},
-                {t: 'Eat/Start Fasting'}
-            ],
-            'Saturday': [
-                {t: 'Pray Fajr', p: true, tip: '🤲 PEAK HOUR - Last third of night = Allah listening most. Between Adhan & Iqamah = never rejected. In Sujud = closest. After Tashahhud = accepted. Ask for video success, athletic goals, skill mastery. Fajr = best. Be specific.'},
-                {t: '6-7am Out Work'},
-                {t: 'Bus (Nap)'},
-                {t: 'Rice Bucket', m: 'RICE'},
-                {t: 'Upload YouTube Video'},
-                {t: 'Sleep', h: 'Toe-spreaders'},
-                {t: 'Pray Dhuhr', p: true, tip: '🤲 POWERFUL - Between Adhan & Iqamah = NEVER rejected. In Sujud = closest. After Tashahhud = guaranteed. Ask for video performance, subscriber growth, views. Dhuhr power. Allah provides. Be sincere.'},
-                {t: 'Work Out'},
-                {t: 'Pray Asr', p: true, tip: '🤲 BLESSED HOUR - Between Adhan & Iqamah = never rejected. In Sujud = nearest. After Tashahhud = accepted. Ask for strength, athletic performance, boxing/archery excellence. Allah grants. Ask.'},
-                {t: 'Pray Maghrib', p: true, tip: '🤲 HIGHLY BLESSED - Between Adhan & Iqamah = never rejected. In Sujud = CLOSEST, humility opens doors. After Tashahhud = accepted. Ask for health, discipline, skill. Maghrib = blessed. Allah listens. Ask big.'},
-                {t: 'Recite Quran (All Surahs)'},
-                {t: 'Pray Isha', p: true, tip: '🤲 NIGHT POWER - Between Adhan & Iqamah = never rejected. In Sujud = close. After Tashahhud = accepted. Ask for good friendships, fun, peace. Night dua = powerful. Thank Allah. Sleep well.'},
-                {t: 'Friends/Simulators/Hangout'},
-                {t: 'Skateboard/Basketball'}
-            ],
-            'Sunday': [
-                {t: 'Pray Fajr', p: true, tip: '🤲 PEAK POWER - Last third = Allah descends listening. Between Adhan & Iqamah = never rejected. In Sujud = closest. After Tashahhud = accepted. Ask for strength, discipline & athletic excellence for boxing/archery today. Fajr = best hour. Be sincere.'},
-                {t: 'Rest'},
-                {t: 'Pray Dhuhr', p: true, tip: '🤲 POWERFUL - Between Adhan & Iqamah = NEVER rejected. In Sujud = closest. After Tashahhud = guaranteed. Ask for great boxing session & mental focus for archery. Dhuhr blessed. Allah provides. Ask.'},
-                {t: '2pm Boxing'},
-                {t: '4pm Archery'},
-                {t: 'Pray Asr/Maghrib', p: true, tip: '🤲 BLESSED AFTER SPORTS - Between Adhan & Iqamah = never rejected. In Sujud = CLOSEST after intense training. After Tashahhud = dua accepted. Ask for growth, skill improvement, continued strength. Athletic prayers = Allah hears. Ask big.'},
-                {t: 'Work 6pm'},
-                {t: 'Pray Isha', p: true, tip: '🤲 NIGHT POWER - Between Adhan & Iqamah = never rejected. In Sujud = close. After Tashahhud = accepted. Ask for good work shift, tomorrow\'s strength, protection. Night dua = powerful. Thank Allah for blessed day. Sleep strong.'},
-                {t: 'Start Fasting'}
-            ]
+            'Monday': [{t: 'Start Fasting'}, {t: 'Pray Fajr', p: true}, {t: '6-7am Out Work'}, {t: 'Bus Nap'}, {t: 'Rice Bucket', m: 'RICE'}, {t: 'Script Film YouTube'}, {t: 'Driving School'}, {t: 'Bus Home'}, {t: 'Pray Dhuhr', p: true}, {t: 'Sleep', h: 'Toe-spreaders'}, {t: 'Wake Up'}, {t: 'Pray Asr', p: true}, {t: 'Pray Maghrib', p: true}, {t: 'Break Fast'}, {t: 'Bus to Work'}, {t: 'Learn Allahs Name'}, {t: 'Driving Test 1'}, {t: 'Pray Isha', p: true}],
+            'Tuesday': [{t: 'Pray Fajr', p: true}, {t: '6-7am Out Work'}, {t: 'Bus Nap'}, {t: 'Rice Bucket', m: 'RICE'}, {t: 'Edit Upload YouTube'}, {t: 'Sleep', h: 'Toe-spreaders'}, {t: 'Wake Up'}, {t: 'Pray Dhuhr', p: true}, {t: 'Eat'}, {t: 'Work Out', w: true}, {t: 'Pray Asr', p: true}, {t: 'Pray Maghrib', p: true}, {t: 'Driving Tests'}, {t: 'Learn Allahs Name'}, {t: 'Driving Test 1'}, {t: 'Pray Isha', p: true}],
+            'Wednesday': [{t: 'Pray Fajr', p: true}, {t: '6-7am Out Work'}, {t: 'Bus Nap'}, {t: 'Rice Bucket', m: 'RICE'}, {t: 'Script Film YouTube'}, {t: 'Driving School'}, {t: 'Bus Home'}, {t: 'Pray Dhuhr', p: true}, {t: 'Sleep', h: 'Toe-spreaders'}, {t: 'Wake Up'}, {t: 'Pray Asr', p: true}, {t: 'Pray Maghrib', p: true}, {t: 'Work Listen'}, {t: 'Learn Allahs Name'}, {t: 'Driving Test 1'}, {t: 'Pray Isha', p: true}],
+            'Thursday': [{t: 'Eat Start Fasting'}, {t: 'Pray Fajr', p: true}, {t: '6-7am Out Work'}, {t: 'Bus Nap'}, {t: 'Rice Bucket', m: 'RICE'}, {t: 'Edit Upload YouTube'}, {t: 'Sleep', h: 'Toe-spreaders'}, {t: 'Wake Up'}, {t: 'Pray Dhuhr', p: true}, {t: 'Eat'}, {t: 'Work Out', w: true}, {t: 'Pray Asr', p: true}, {t: 'Pray Maghrib', p: true}, {t: 'Break Fast'}, {t: 'Driving Tests'}, {t: 'Learn Allahs Name'}, {t: 'Driving Test 1'}, {t: 'Pray Isha', p: true}],
+            'Friday': [{t: 'Pray Fajr', p: true}, {t: '6-7am Out Work'}, {t: 'Bus Nap'}, {t: 'Rice Bucket', m: 'RICE'}, {t: 'Shower'}, {t: 'Driving School'}, {t: 'Go Home'}, {t: 'Pray Friday', p: true}, {t: 'Sleep', h: 'Toe-spreaders'}, {t: 'Wake Up'}, {t: 'Pray Asr', p: true}, {t: 'Pray Maghrib', p: true}, {t: 'Work Listen'}, {t: 'Learn Allahs Name'}, {t: 'Driving Test 1'}, {t: 'Pray Isha', p: true}, {t: 'Eat Start Fasting'}],
+            'Saturday': [{t: 'Pray Fajr', p: true}, {t: '6-7am Out Work'}, {t: 'Bus Nap'}, {t: 'Rice Bucket', m: 'RICE'}, {t: 'Upload Video'}, {t: 'Sleep', h: 'Toe-spreaders'}, {t: 'Pray Dhuhr', p: true}, {t: 'Work Out', w: true}, {t: 'Pray Asr', p: true}, {t: 'Pray Maghrib', p: true}, {t: 'Recite Quran'}, {t: 'Pray Isha', p: true}, {t: 'Learn Allahs Name'}, {t: 'Friends Hangout'}, {t: 'Basketball'}],
+            'Sunday': [{t: 'Pray Fajr', p: true}, {t: 'Rest'}, {t: 'Pray Dhuhr', p: true}, {t: '2pm Boxing'}, {t: '4pm Archery'}, {t: 'Pray Asr Maghrib', p: true}, {t: 'Work 6pm'}, {t: 'Learn Allahs Name'}, {t: 'Driving Test 1'}, {t: 'Pray Isha', p: true}, {t: 'Start Fasting'}]
         };
 
         const app = {
-            day: '', dateStr: '', idx: 0, riceIdx: 0, riceMode: false, timer: null,
-            db: {}, isPaused: false, pausedTime: 30,
+            day: '', dateStr: '', idx: 0, riceIdx: 0, riceMode: false, timer: null, db: {}, isPaused: false, pausedTime: 30,
 
             init() {
                 const now = new Date();
@@ -348,139 +168,21 @@
                 if(!this.db[this.dateStr]) {
                     this.db[this.dateStr] = { checks: {}, habits: {}, journal: "", allahName: "", workoutNotes: "", score: 0, locked: false, lastIdx: 0 };
                 } else {
-                    // Restore last position
                     this.idx = this.db[this.dateStr].lastIdx || 0;
                 }
                 
-                this.setupNotifications();
                 this.render();
-            },
-
-            setupNotifications() {
-                if(typeof Notification !== 'undefined' && Notification.permission === "default") {
-                    Notification.requestPermission();
-                }
-                
-                // Register service worker for PWA
-                if('serviceWorker' in navigator) {
-                    navigator.serviceWorker.register('data:application/javascript,' + encodeURIComponent(`
-                        self.addEventListener('install', (e) => {
-                            self.skipWaiting();
-                        });
-                        
-                        self.addEventListener('activate', (e) => {
-                            e.waitUntil(clients.claim());
-                        });
-                        
-                        self.addEventListener('message', (e) => {
-                            if(e.data.type === 'PRAYER_NOTIFICATION') {
-                                self.registration.showNotification('🕌 Prayer Time', {
-                                    body: e.data.message,
-                                    icon: 'data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20192%20192%22%3E%3Crect%20fill=%22%230A84FF%22%20width=%22192%22%20height=%22192%22/%3E%3Ctext%20x=%2296%22%20y=%22120%22%20font-size=%22100%22%20fill=%22white%22%20text-anchor=%22middle%22%3E%E2%9C%93%3C/text%3E%3C/svg%3E',
-                                    badge: '🕌',
-                                    tag: 'prayer-notification',
-                                    requireInteraction: true
-                                });
-                            }
-                        });
-                    `)).catch(err => console.log('SW registration failed:', err));
-                }
-                
-                // Check for prayer times every minute
-                setInterval(() => this.checkPrayerTime(), 60000);
-                this.checkPrayerTime(); // Check immediately
-            },
-
-            checkPrayerTime() {
-                const now = new Date();
-                const hour = now.getHours();
-                const minute = now.getMinutes();
-                const tasks = SCHEDULE[this.day] || [];
-                
-                const prayerTimes = {
-                    'Dhuhr': { h: 12, m: 0 },
-                    'Asr': { h: 15, m: 30 },
-                    'Maghrib': { h: 18, m: 15 },
-                    'Isha': { h: 20, m: 0 },
-                    'Fajr': { h: 5, m: 30 }
-                };
-                
-                Object.entries(prayerTimes).forEach(([prayerName, time]) => {
-                    if(hour === time.h && minute === time.m) {
-                        this.playNotificationSound();
-                        
-                        // Try to show notification
-                        if(typeof Notification !== 'undefined' && Notification.permission === 'granted') {
-                            new Notification('🕌 Prayer Time', {
-                                body: `It's time for ${prayerName} prayer`,
-                                icon: 'data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20192%20192%22%3E%3Crect%20fill=%22%230A84FF%22%20width=%22192%22%20height=%22192%22/%3E%3Ctext%20x=%2296%22%20y=%22120%22%20font-size=%22100%22%20fill=%22white%22%20text-anchor=%22middle%22%3E%E2%9C%93%3C/text%3E%3C/svg%3E',
-                                badge: '🕌',
-                                requireInteraction: true
-                            });
-                        }
-                        
-                        // Also try service worker if available
-                        if('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-                            navigator.serviceWorker.controller.postMessage({
-                                type: 'PRAYER_NOTIFICATION',
-                                message: `It's time for ${prayerName} prayer`
-                            });
-                        }
-                    }
-                });
-            },
-
-            playNotificationSound() {
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
-                
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-                
-                oscillator.frequency.value = 800;
-                oscillator.type = 'sine';
-                
-                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
-                
-                oscillator.start(audioContext.currentTime);
-                oscillator.stop(audioContext.currentTime + 0.5);
-            },
-
-            playBeep() {
-                try {
-                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                    const oscillator = audioContext.createOscillator();
-                    const gainNode = audioContext.createGain();
-                    
-                    oscillator.connect(gainNode);
-                    gainNode.connect(audioContext.destination);
-                    
-                    oscillator.frequency.value = 600;
-                    oscillator.type = 'sine';
-                    
-                    gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
-                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-                    
-                    oscillator.start(audioContext.currentTime);
-                    oscillator.stop(audioContext.currentTime + 0.3);
-                } catch(e) {
-                    console.log('Audio not available');
-                }
             },
 
             save() {
                 try {
                     localStorage.setItem('elite_legacy_db', JSON.stringify(this.db));
                 } catch(e) {
-                    console.log('Storage full or unavailable');
+                    console.log('Storage error');
                 }
             },
 
-            haptic(t) { 
-                if(navigator.vibrate) navigator.vibrate(t); 
-            },
+            haptic(t) { if(navigator.vibrate) navigator.vibrate(t); },
 
             render() {
                 const tasks = SCHEDULE[this.day] || [];
@@ -488,8 +190,8 @@
                 const nav = document.getElementById('navBar');
 
                 if (this.db[this.dateStr].locked) {
-                    nav.style.display = 'none';
-                    view.innerHTML = `<div class="card" style="text-align:center"><h2 style="color: var(--gold)">✓ Day Archived</h2><p style="color:var(--accent); font-size:40px; margin:20px 0">${this.db[this.dateStr].score}%</p><button class="btn btn-p" style="margin-top:20px; width: 100%" onclick="location.reload()">Reset to Today</button></div>`;
+                    nav.style.display = 'flex';
+                    view.innerHTML = '<div class="card" style="text-align:center"><h2 style="color: var(--gold)">Day Archived</h2><p style="color:var(--accent); font-size:40px; margin:20px 0">' + this.db[this.dateStr].score + '%</p><button class="btn btn-p" style="margin-top:20px; width: 100%;" onclick="localStorage.clear(); location.reload();">Start New Day</button></div>';
                     return;
                 }
 
@@ -502,12 +204,11 @@
                 } else {
                     nav.style.display = 'flex';
                     const t = tasks[this.idx];
-                    let html = `<div class="card"><span style="color: var(--accent); font-weight: 700; font-size: 12px;">TASK ${this.idx+1}/${tasks.length}</span><h2>${t.t}</h2>`;
-                    if(t.h) html += `<p style="color:var(--gold); margin-top: 15px;">✦ ${t.h}</p>`;
-                    if(t.tip) html += `<p style="color:var(--sub); margin-top: 12px; font-size: 13px; line-height: 1.5; padding: 12px; background: rgba(255,255,255,0.04); border-radius: 12px; border-left: 3px solid var(--gold);">${t.tip}</p>`;
-                    if(t.m==='RICE') html += `<button class="btn btn-p" style="margin-top:20px; width: 100%;" onclick="app.startRice()">Start Training 💪</button>`;
-                    if(t.p) html += `<button class="btn btn-s" style="margin-top:15px; color:var(--gold); width: 100%;" onclick="app.showPrayers()">📖 Prayer Guide</button>`;
-                    html += `</div>`;
+                    let html = '<div class="card"><span style="color: var(--accent); font-weight: 700; font-size: 12px;">TASK ' + (this.idx+1) + '/' + tasks.length + '</span><h2>' + t.t + '</h2>';
+                    if(t.h) html += '<p style="color:var(--gold); margin-top: 15px;">✦ ' + t.h + '</p>';
+                    if(t.m==='RICE') html += '<button class="btn btn-p" style="margin-top:20px; width: 100%;" onclick="app.startRice()">Start Training 💪</button>';
+                    if(t.p) html += '<button class="btn btn-s" style="margin-top:15px; color:var(--gold); width: 100%;" onclick="app.showPrayers()">📖 Prayer Guide</button>';
+                    html += '</div>';
                     view.innerHTML = html;
                 }
             },
@@ -516,26 +217,9 @@
                 const hand = this.riceIdx < 20 ? 'RIGHT HAND' : 'LEFT HAND';
                 const exNum = this.riceIdx % 20;
                 const ex = RICE_EX[exNum];
-                const pauseBtn = this.isPaused ? `<button class="btn btn-s" style="flex: 1;" onclick="app.resumeRice()">▶ Resume</button>` : `<button class="btn btn-s" style="flex: 1;" onclick="app.pauseRice()">⏸ Pause</button>`;
-                view.innerHTML = `<div class="card ${this.isPaused ? 'pause-state' : ''}">
-                    <div style="text-align:center;">
-                        <span style="color:var(--sub); font-weight:800; font-size: 12px;">💪 ${hand}</span>
-                        <h2 style="margin:15px 0; color:var(--accent);">${ex}</h2>
-                        <p style="color: var(--gold); font-size: 14px; margin-bottom: 20px;">Exercise ${exNum + 1}/20</p>
-                        <div class="timer-wrap">
-                            <svg class="timer-svg"><circle class="timer-bg" cx="120" cy="120" r="100"/><circle id="ring" class="timer-prog" cx="120" cy="120" r="100"/></svg>
-                            <div class="timer-val ${this.isPaused ? 'paused' : ''}" id="timeTxt">${this.pausedTime}</div>
-                        </div>
-                        <div style="display:flex; gap:10px;">
-                            ${pauseBtn}
-                            <button class="btn btn-s" style="flex: 1;" onclick="app.replayTimer()">🔄 Replay</button>
-                            <button class="btn btn-p" style="flex: 1;" onclick="app.skipTimer()">Skip →</button>
-                        </div>
-                    </div>
-                </div>`;
-                if(!this.isPaused) {
-                    this.startTimer();
-                }
+                const pauseBtn = this.isPaused ? '<button class="btn btn-s" style="flex: 1;" onclick="app.resumeRice()">Resume</button>' : '<button class="btn btn-s" style="flex: 1;" onclick="app.pauseRice()">Pause</button>';
+                view.innerHTML = '<div class="card" style="text-align:center"><span style="color:var(--sub); font-weight:800; font-size: 12px;">💪 ' + hand + '</span><h2 style="margin:15px 0; color:var(--accent);">' + ex + '</h2><p style="color: var(--gold); font-size: 14px; margin-bottom: 20px;">Exercise ' + (exNum + 1) + '/20</p><div class="timer-wrap"><svg class="timer-svg" width="240" height="240"><circle class="timer-bg" cx="120" cy="120" r="100"/><circle id="ring" class="timer-prog" cx="120" cy="120" r="100"/></svg><div class="timer-val" id="timeTxt">' + this.pausedTime + '</div></div><div style="display:flex; gap:10px;">' + pauseBtn + '<button class="btn btn-s" style="flex: 1;" onclick="app.replayTimer()">Replay</button><button class="btn btn-p" style="flex: 1;" onclick="app.skipTimer()">Skip</button></div></div>';
+                if(!this.isPaused) this.startTimer();
             },
 
             startTimer() {
@@ -548,129 +232,43 @@
                     this.pausedTime = time;
                     txt.innerText = time;
                     ring.style.strokeDashoffset = 628 - (time / 30) * 628;
-                    if(time <= 5) { 
-                        ring.style.stroke = 'var(--danger)'; 
-                        this.haptic(50); 
-                    }
-                    if(time <= 0) { 
-                        clearInterval(this.timer);
-                        this.haptic([150, 50, 150]);
-                        this.playBeep();
-                        this.riceIdx++;
-                        this.pausedTime = 30;
-                        if(this.riceIdx >= 40) {
-                            this.riceMode = false;
-                            this.idx++;
-                            this.haptic([200, 100, 200]);
-                            this.playBeep();
-                        }
-                        this.render();
-                    }
+                    if(time <= 5) { ring.style.stroke = 'var(--danger)'; this.haptic(50); }
+                    if(time <= 0) { clearInterval(this.timer); this.haptic([150, 50, 150]); this.riceIdx++; this.pausedTime = 30; if(this.riceIdx >= 40) { this.riceMode = false; this.idx++; this.haptic([200, 100, 200]); } this.render(); }
                 }, 1000);
             },
 
-            pauseRice() {
-                clearInterval(this.timer);
-                this.isPaused = true;
-                this.render();
-            },
-
-            resumeRice() {
-                this.isPaused = false;
-                this.render();
-            },
+            pauseRice() { clearInterval(this.timer); this.isPaused = true; this.render(); },
+            resumeRice() { this.isPaused = false; this.render(); },
 
             renderSummary(tasks, view) {
-                let html = `<h2 style="color:var(--gold); margin-bottom: 25px;">📋 Daily Review</h2>
-                    <h3 style="color: var(--accent); margin-bottom: 15px;">✓ Completed Tasks</h3>
-                    <div class="tasks-scroll" style="max-height: 45vh; overflow-y: auto; padding-right: 5px; margin-bottom: 25px;">`;
-                
-                tasks.forEach(t => {
-                    const isDone = this.db[this.dateStr].checks[t.t] || false;
-                    html += `<div class="check-pill ${isDone?'active':''}" data-task="${t.t}" onclick="event.stopPropagation(); app.toggleCheck('${t.t}')">
-                        <div class="circle">${isDone?'✓':''}</div><span>${t.t}</span>
-                    </div>`;
+                let html = '<h2 style="color:var(--gold); margin-bottom: 25px;">Daily Review</h2><h3 style="color: var(--accent); margin-bottom: 15px;">Completed Tasks</h3><div style="max-height: 35vh; overflow-y: auto; margin-bottom: 20px;">';
+                tasks.forEach((t) => {
+                    const isDone = this.db[this.dateStr].checks[t.t];
+                    html += '<div class="check-pill ' + (isDone?'active':'') + '" data-task="' + t.t + '" onclick="app.toggleCheck(\'' + t.t + '\')"><div class="circle">' + (isDone?'✓':'') + '</div><span>' + t.t + '</span></div>';
                 });
-                
-                html += `</div><h3 style="color: var(--success); margin-bottom: 15px;">🎯 Daily Habits</h3><div class="habits-grid">`;
-                
+                html += '</div><h3 style="color: var(--success); margin-bottom: 15px;">Daily Habits</h3><div class="habits-grid">';
                 HABITS.forEach(h => {
-                    const isActive = this.db[this.dateStr].habits[h] || false;
-                    html += `<div class="habit-pill ${isActive?'active':''}" data-habit="${h}" onclick="event.stopPropagation(); app.toggleHabit('${h}')">${h}</div>`;
+                    const isActive = this.db[this.dateStr].habits[h];
+                    html += '<div class="habit-pill ' + (isActive?'active':'') + '" data-habit="' + h + '" onclick="app.toggleHabit(\'' + h + '\')">' + h + '</div>';
                 });
-                
-                html += `</div><h3 style="color: var(--gold); margin-bottom: 12px; margin-top: 25px;">📝 Journal</h3>
-                    <textarea id="jBox" class="journal" placeholder="Reflections, wins & lessons..." oninput="app.db['${this.dateStr}'].journal=this.value; app.save()">${this.db[this.dateStr].journal}</textarea>
-                    <button class="btn btn-p" style="background: var(--success); margin-top: 25px; width: 100%; margin-bottom: 20px; font-size: 18px; letter-spacing: 1px;" onclick="app.lockDay()">✓ ARCHIVE DAY</button>`;
-                
+                html += '</div><h3 style="color: var(--gold); margin-bottom: 12px; margin-top: 25px;">Allah Name</h3><input id="alahName" type="text" placeholder="e.g., Al-Quddus" style="width: 100%; padding: 15px; background: #2c2c2e; border: 1px solid #333; border-radius: 15px; color: white; font-size: 15px; margin-bottom: 15px;" value="' + (this.db[this.dateStr].allahName || '') + '" oninput="app.db[\'' + this.dateStr + '\'].allahName=this.value; app.save()"><h3 style="color: var(--gold); margin-bottom: 12px;">Workout Notes</h3><textarea id="workoutNotes" class="journal" placeholder="Log reps..." oninput="app.db[\'' + this.dateStr + '\'].workoutNotes=this.value; app.save()">' + (this.db[this.dateStr].workoutNotes || '') + '</textarea><h3 style="color: var(--gold); margin-bottom: 12px;">Journal</h3><textarea id="jBox" class="journal" placeholder="Reflections..." oninput="app.db[\'' + this.dateStr + '\'].journal=this.value; app.save()">' + (this.db[this.dateStr].journal || '') + '</textarea><button class="btn btn-p" style="background: var(--success); margin-top: 20px; width: 100%; margin-bottom: 20px; font-size: 18px;" onclick="app.lockDay()">ARCHIVE DAY</button>';
                 view.innerHTML = html;
             },
 
-            toggleCheck(t) { 
-                this.db[this.dateStr].checks[t] = !this.db[this.dateStr].checks[t]; 
-                this.save();
-                
-                const pill = document.querySelector(`[data-task="${t}"]`);
-                if(pill) {
-                    pill.classList.toggle('active');
-                    const circle = pill.querySelector('.circle');
-                    circle.textContent = this.db[this.dateStr].checks[t] ? '✓' : '';
-                }
-            },
-
-            toggleHabit(h) {
-                this.db[this.dateStr].habits[h] = !this.db[this.dateStr].habits[h];
-                this.save();
-                
-                const habit = document.querySelector(`[data-habit="${h}"]`);
-                if(habit) {
-                    habit.classList.toggle('active');
-                }
-            },
-
-            lockDay() {
-                const tasks = SCHEDULE[this.day] || [];
-                let count = 0;
-                tasks.forEach(t => { 
-                    if(this.db[this.dateStr].checks[t.t]) count++; 
-                });
-                this.db[this.dateStr].score = tasks.length > 0 ? Math.round((count/tasks.length)*100) : 0;
-                this.db[this.dateStr].locked = true;
-                this.save();
-                this.render();
-            },
+            toggleCheck(t) { this.db[this.dateStr].checks[t] = !this.db[this.dateStr].checks[t]; this.save(); const pill = document.querySelector('[data-task="' + t + '"]'); if(pill) { pill.classList.toggle('active'); const circle = pill.querySelector('.circle'); circle.textContent = this.db[this.dateStr].checks[t] ? '✓' : ''; } },
+            toggleHabit(h) { this.db[this.dateStr].habits[h] = !this.db[this.dateStr].habits[h]; this.save(); const habit = document.querySelector('[data-habit="' + h + '"]'); if(habit) habit.classList.toggle('active'); },
+            lockDay() { const tasks = SCHEDULE[this.day] || []; let count = 0; tasks.forEach(t => { if(this.db[this.dateStr].checks[t.t]) count++; }); this.db[this.dateStr].score = tasks.length > 0 ? Math.round((count/tasks.length)*100) : 0; this.db[this.dateStr].locked = true; this.save(); this.render(); },
 
             showHistory() {
                 const body = document.getElementById('historyBody');
                 const keys = Object.keys(this.db).sort((a,b) => new Date(b) - new Date(a));
-                
-                if(keys.length === 0) {
-                    body.innerHTML = '<p style="color: var(--sub); text-align: center; padding: 30px;">No archived days yet</p>';
-                    this.toggleModal('historyModal');
-                    return;
-                }
-                
-                body.innerHTML = keys.map(k => `
-                    <div class="history-item">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px">
-                            <strong>${k}</strong>
-                            <span style="color:var(--success); font-weight:700">${this.db[k].score}%</span>
-                        </div>
-                        <p style="font-size:13px; color:var(--sub); margin:8px 0; line-height:1.5">${this.db[k].journal || '(No journal)'}</p>
-                        <div style="font-size:12px; color:var(--accent); margin:8px 0; margin-bottom: 12px;">
-                            Tasks: ${Object.values(this.db[k].checks || {}).filter(Boolean).length} | Habits: ${Object.values(this.db[k].habits || {}).filter(Boolean).length}
-                        </div>
-                        <div style="display:flex; gap:8px;">
-                            <button class="btn btn-s" style="padding:10px; font-size:13px; flex: 1;" onclick="app.viewArchive('${k}')">View</button>
-                            <button class="btn btn-s" style="padding:10px; font-size:13px; color:var(--danger); flex: 1;" onclick="app.deleteDay('${k}')">Delete</button>
-                        </div>
-                    </div>
-                `).join('');
-                
-                body.innerHTML += `<div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #333;">
-                    <button class="btn btn-s" style="width: 100%; color: var(--danger); margin-top: 10px; font-weight: 700;" onclick="app.clearAllData()">🗑️ Clear All Data & Restart</button>
-                </div>`;
-                
+                if(keys.length === 0) { body.innerHTML = '<p style="color: var(--sub); text-align: center; padding: 30px;">No archived days yet</p>'; this.toggleModal('historyModal'); return; }
+                let html = '';
+                keys.forEach(k => {
+                    html += '<div style="background: var(--card); border-radius: 20px; padding: 20px; margin-bottom: 15px; border: 1px solid #333;"><div style="display:flex; justify-content:space-between; margin-bottom:10px"><strong>' + k + '</strong><span style="color:var(--success); font-weight:700">' + this.db[k].score + '%</span></div><div style="font-size:12px; color:var(--accent); margin:8px 0; margin-bottom: 12px;">Tasks: ' + Object.values(this.db[k].checks || {}).filter(Boolean).length + ' | Habits: ' + Object.values(this.db[k].habits || {}).filter(Boolean).length + '</div><div style="display:flex; gap:8px;"><button class="btn btn-s" style="padding:10px; font-size:13px; flex: 1;" onclick="app.viewArchive(\'' + k + '\')">View</button><button class="btn btn-s" style="padding:10px; font-size:13px; color:var(--danger); flex: 1;" onclick="app.deleteDay(\'' + k + '\')">Delete</button></div></div>';
+                });
+                html += '<div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #333;"><button class="btn btn-s" style="width: 100%; color: var(--danger); margin-top: 10px; font-weight: 700;" onclick="localStorage.clear(); location.reload();">Clear All & Restart</button></div>';
+                body.innerHTML = html;
                 this.toggleModal('historyModal');
             },
 
@@ -678,91 +276,28 @@
                 const entry = this.db[date];
                 const completedTasks = Object.keys(entry.checks || {}).filter(c => entry.checks[c]);
                 const completedHabits = Object.keys(entry.habits || {}).filter(h => entry.habits[h]);
-                alert(`📅 ${date}\n✓ Score: ${entry.score}%\n\n📋 Tasks (${completedTasks.length}):\n${completedTasks.join('\n') || 'None'}\n\n🎯 Habits (${completedHabits.length}):\n${completedHabits.join('\n') || 'None'}\n\n🕌 Allah's Name:\n${entry.allahName || '(Not recorded)'}\n\n💪 Workout:\n${entry.workoutNotes || '(No workout logged)'}\n\n📝 Journal:\n${entry.journal || '(Empty)'}`);
+                alert('Date: ' + date + '\nScore: ' + entry.score + '%\n\nTasks: ' + completedTasks.length + '\n' + (completedTasks.join(', ') || 'None') + '\n\nHabits: ' + completedHabits.length + '\n' + (completedHabits.join(', ') || 'None') + '\n\nAllah Name: ' + (entry.allahName || 'Not recorded') + '\n\nJournal:\n' + (entry.journal || 'Empty'));
             },
 
-            clearAllData() {
-                if(confirm('Clear ALL data and restart? This cannot be undone.')) {
-                    this.db = {};
-                    this.save();
-                    this.toggleModal('historyModal');
-                    this.idx = 0;
-                    this.riceMode = false;
-                    this.isPaused = false;
-                    this.pausedTime = 30;
-                    this.render();
-                }
-            },
+            deleteDay(date) { if(confirm('Delete ' + date + '?')) { delete this.db[date]; this.save(); this.showHistory(); } },
 
-            deleteDay(date) { 
-                if(confirm(`Delete entire archive for ${date}? This cannot be undone.`)) { 
-                    delete this.db[date]; 
-                    this.save();
-                    this.showHistory();
-                } 
-            },
-
-            toggleModal(id) { 
-                document.getElementById(id).classList.toggle('active'); 
-            },
+            toggleModal(id) { document.getElementById(id).classList.toggle('active'); },
 
             showPrayers() {
-                document.getElementById('prayerBody').innerHTML = PRAYERS.map((p, i) => `
-                    <div class="p-block">
-                        <div class="p-title">${i + 1}. ${p.t}</div>
-                        <div class="p-arab">${p.a}</div>
-                        <div class="p-eng">${p.e}</div>
-                    </div>
-                `).join('');
+                let html = '';
+                PRAYERS.forEach((p, i) => {
+                    html += '<div style="margin-bottom: 30px; border-bottom: 1px solid #222; padding-bottom: 20px;"><div style="font-size: 18px; color: var(--gold); font-weight: 700; margin-bottom: 10px;">' + (i+1) + '. ' + p.t + '</div><div style="font-size: 16px; color: var(--accent); line-height: 1.8; margin-bottom: 12px;">' + p.a + '</div><div style="font-size: 14px; color: #aaa; line-height: 1.6;">' + p.e + '</div></div>';
+                });
+                document.getElementById('prayerBody').innerHTML = html;
                 this.toggleModal('prayerModal');
             },
 
-            startRice() { 
-                this.riceMode = true; 
-                this.riceIdx = 0; 
-                this.render(); 
-            },
-
-            replayTimer() { 
-                this.isPaused = false;
-                this.pausedTime = 30;
-                this.render(); 
-            },
-
-            skipTimer() { 
-                clearInterval(this.timer); 
-                this.riceIdx++;
-                if(this.riceIdx >= 40) {
-                    this.riceMode = false;
-                    this.idx++;
-                    this.haptic([200, 100, 200]);
-                }
-                this.render(); 
-            },
-
-            next() { 
-                this.haptic(20); 
-                this.idx++; 
-                this.db[this.dateStr].lastIdx = this.idx;
-                this.save();
-                this.render(); 
-            },
-
-            prev() { 
-                this.haptic(20); 
-                this.riceMode = false; 
-                this.idx = Math.max(0, this.idx - 1); 
-                this.db[this.dateStr].lastIdx = this.idx;
-                this.save();
-                this.render(); 
-            },
-
-            savePosition() {
-                this.db[this.dateStr].lastIdx = this.idx;
-                this.save();
-                this.haptic([100, 50, 100]);
-                alert('✅ Position saved at Task ' + (this.idx + 1));
-            }
+            startRice() { this.riceMode = true; this.riceIdx = 0; this.render(); },
+            replayTimer() { this.isPaused = false; this.pausedTime = 30; this.render(); },
+            skipTimer() { clearInterval(this.timer); this.riceIdx++; if(this.riceIdx >= 40) { this.riceMode = false; this.idx++; this.haptic([200, 100, 200]); } this.render(); },
+            savePosition() { this.db[this.dateStr].lastIdx = this.idx; this.save(); this.haptic([100, 50, 100]); alert('Saved at Task ' + (this.idx + 1)); },
+            next() { this.haptic(20); this.idx++; this.db[this.dateStr].lastIdx = this.idx; this.save(); this.render(); },
+            prev() { this.haptic(20); this.riceMode = false; this.idx = Math.max(0, this.idx - 1); this.db[this.dateStr].lastIdx = this.idx; this.save(); this.render(); }
         };
 
         window.addEventListener('load', () => app.init());
