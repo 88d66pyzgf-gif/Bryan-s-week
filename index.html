@@ -89,6 +89,7 @@
         .btn:active { transform: scale(0.95); }
         .btn-p { background: var(--accent); color: white; }
         .btn-s { background: #2c2c2e; color: white; }
+        .btn-save { background: var(--gold); color: black; font-weight: 800; }
         .journal { width: 100%; height: 140px; background: #2c2c2e; border: none; border-radius: 20px; color: #fff; padding: 20px; font-size: 16px; margin: 15px 0; outline: none; font-family: inherit; resize: vertical; }
         
         .habits-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; }
@@ -121,7 +122,7 @@
 
     <div class="nav-bar" id="navBar">
         <button class="btn btn-s" onclick="app.prev()">← Back</button>
-        <button class="btn btn-p" onclick="app.savePosition()" style="background: var(--gold); color: black; font-weight: 800;">💾 Save Position</button>
+        <button class="btn btn-save" onclick="app.savePosition()">💾 Save</button>
         <button class="btn btn-p" onclick="app.next()">Next →</button>
     </div>
 
