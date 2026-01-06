@@ -251,7 +251,20 @@
                     const isActive = this.db[this.dateStr].habits[h];
                     html += '<div class="habit-pill ' + (isActive?'active':'') + '" data-habit="' + h + '" onclick="app.toggleHabit(\'' + h + '\')">' + h + '</div>';
                 });
-                html += '</div><h3 style="color: var(--gold); margin-bottom: 12px; margin-top: 25px;">Allah Name</h3><input id="alahName" type="text" placeholder="e.g., Al-Quddus" style="width: 100%; padding: 15px; background: #2c2c2e; border: 1px solid #333; border-radius: 15px; color: white; font-size: 15px; margin-bottom: 15px;" value="' + (this.db[this.dateStr].allahName || '') + '" oninput="app.db[\'' + this.dateStr + '\'].allahName=this.value; app.save()"><h3 style="color: var(--gold); margin-bottom: 12px;">Workout Notes</h3><textarea id="workoutNotes" class="journal" placeholder="Log reps..." oninput="app.db[\'' + this.dateStr + '\'].workoutNotes=this.value; app.save()">' + (this.db[this.dateStr].workoutNotes || '') + '</textarea><h3 style="color: var(--gold); margin-bottom: 12px;">Journal</h3><textarea id="jBox" class="journal" placeholder="Reflections..." oninput="app.db[\'' + this.dateStr + '\'].journal=this.value; app.save()">' + (this.db[this.dateStr].journal || '') + '</textarea><button class="btn btn-p" style="background: var(--success); margin-top: 20px; width: 100%; margin-bottom: 20px; font-size: 18px;" onclick="app.lockDay()">ARCHIVE DAY</button>';
+                
+                // Check if there are workout tasks today
+                const hasWorkout = tasks.some(t => t.w);
+                
+                html += '</div>';
+                
+                if(hasWorkout) {
+                    html += '<h3 style="color: var(--gold); margin-bottom: 12px; margin-top: 25px;">💪 Workout Notes</h3><textarea id="workoutNotes" class="journal" placeholder="Log your reps, PRs... e.g., Bench: 3x8 @ 185" oninput="app.db[\'' + this.dateStr + '\'].workoutNotes=this.value; app.save()">' + (this.db[this.dateStr].workoutNotes || '') + '</textarea>';
+                }
+                
+                html += '<h3 style="color: var(--gold); margin-bottom: 12px; margin-top: 25px;">🕌 Allah Name Learned</h3><input id="alahName" type="text" placeholder="e.g., Al-Quddus (The Holy)" style="width: 100%; padding: 15px; background: #2c2c2e; border: 1px solid #333; border-radius: 15px; color: white; font-size: 15px; margin-bottom: 15px;" value="' + (this.db[this.dateStr].allahName || '') + '" oninput="app.db[\'' + this.dateStr + '\'].allahName=this.value; app.save()">';
+                
+                html += '<h3 style="color: var(--gold); margin-bottom: 12px;">📝 Journal</h3><textarea id="jBox" class="journal" placeholder="Reflections, wins & lessons..." oninput="app.db[\'' + this.dateStr + '\'].journal=this.value; app.save()">' + (this.db[this.dateStr].journal || '') + '</textarea><button class="btn btn-p" style="background: var(--success); margin-top: 20px; width: 100%; margin-bottom: 20px; font-size: 18px;" onclick="app.lockDay()">✓ ARCHIVE DAY</button>';
+                
                 view.innerHTML = html;
             },
 
